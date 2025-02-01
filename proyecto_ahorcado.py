@@ -10,3 +10,12 @@ def eleccion_palabra():
                 "Celular", "Medias", "Sombrero"]
     return random.choice(palabras)
 
+palabra = eleccion_palabra()
+
+longuitud_guiones = ""
+
+for g in palabra:
+    if g:
+        longuitud_guiones += "_ "
+
+print("Comencemos...\n La palabra es: ", longuitud_guiones)
