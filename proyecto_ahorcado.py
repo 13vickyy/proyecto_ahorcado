@@ -1,76 +1,77 @@
 import random
-#python elige palabra al azar
+    #python elige palabra al azar
 
 def eleccion_palabra():
-      palabras = ["Cocodrilo", "Alexandra", "Matematica", "Progarmacion", 
-                "Felicidad", "Harina", "Motor", "Amortiguadores", "Chipa",
-                "Celular", "Medias", "Sombrero"]
-      return random.choice(palabras).lower()
+        palabras = ["Cocodrilo", "Alexandra", "Matematica", "Progarmacion", 
+                    "Felicidad", "Harina", "Motor", "Amortiguadores", "Chipa",
+                    "Celular", "Medias", "Sombrero"]
+        return random.choice(palabras).lower()
+def jugar():
+        while True: 
 
-palabra = eleccion_palabra() #eleccion de palabra al azar
+            palabra = eleccion_palabra() #eleccion de palabra al azar
 
-#inicio de contadores 
+            #inicio de contadores 
 
-longuitud_guiones = ""
-vidas = 6
-letras_ingresadas = [] #contador de todas las letras ingresadas por el usr
+            longuitud_guiones = "_"*len(palabra)
+            vidas = 6
+            letras_ingresadas = [] #contador de todas las letras ingresadas por el usr
 
-for g in palabra: #genera cantidad de guiones segun la palabra seleccionada
-    if g:
-        longuitud_guiones += "_ "
+            print("Comencemos...\n RECORDA QUE TENES 6 VIDAS \n La palabra es: ", longuitud_guiones)
 
-print("Comencemos...\n RECORDA QUE TENES 6 VIDAS \n La palabra es: ", longuitud_guiones)
+            def mostrar_progreso(palabra,palabra_ingresada):
+                resultado=[]
+                for letra in palabra:
+                    if letra in palabra_ingresada: #si la letra la ingreso el usr, se agrega al resultado
+                        resultado.append(letra)
+                    else:
+                        resultado.append("_") #si la letra no fue adivinada, mantiene el guion bajo
+                return " ".join(resultado)
 
-def mostrar_progreso(palabra,palabra_ingresada):
-    resultado=[]
-    for letra in palabra:
-        if letra in palabra_ingresada: #si la letra la ingreso el usr, se agrega al resultado
-            resultado.append(letra)
-        else:
-            resultado.append("_") #si la letra no fue adivinada, mantiene el guion bajo
-    return " ".join(resultado)
+            while vidas > 0: 
+                print(f"\nLetras usadas:{", ".join(letras_ingresadas)}")
+                print(f"Vidas restantes: {vidas}")
+                print("Progreso: ", mostrar_progreso(palabra, letras_ingresadas)) #muestra progreso
 
-while vidas > 0: 
-    print(f"\nLetras usadas:{", ".join(letras_ingresadas)}")
-    print(f"Vidas restantes: {vidas}")
+                eleccion_letra_usr = input("Ingrese una letra: ").lower()  #pedir usr letra
 
-    print("Progreso: ", mostrar_progreso(palabra, letras_ingresadas)) #muestra progreso
+                if len(eleccion_letra_usr) != 1 or not eleccion_letra_usr.isalpha(): #primera corroboracion de que el usr ingrese lo pedido, no se descuentan vidas en esta instancia
+                    print("Recorda: Solo podes ingresar 1 letra a-z\n Ingrese nuevamente una letra valida")
+                    continue
 
-    eleccion_letra_usr = input("Ingrese una letra: ").lower()  #pedir usr letra
+                if eleccion_letra_usr in letras_ingresadas:
+                    print(f"Ya usaste la letra {eleccion_letra_usr}. Intenta con una letra valida diferente")
+                    continue
 
-    if len(eleccion_letra_usr) != 1 or not eleccion_letra_usr.isalpha(): #primera corroboracion de que el usr ingrese lo pedido, no se descuentan vidas en esta instancia
-        print("Recorda: Solo podes ingresar 1 letra a-z\n Ingrese nuevamente una letra valida")
-        continue
+                letras_ingresadas.append(eleccion_letra_usr) #agrego letra a lista de letras ya ingresadas
 
-    if eleccion_letra_usr in letras_ingresadas:
-        print(f"Ya usaste la letra {eleccion_letra_usr}. Intenta con una letra valida diferente")
-        continue
+                if eleccion_letra_usr in palabra:
+                    print(f"\nMuy bien! {eleccion_letra_usr} esta en la palabra!")
 
-    letras_ingresadas.append(eleccion_letra_usr) #agrego letra a lista de letras ya ingresadas
+                else:
+                    vidas -= 1 #resto 1 vida si el usuario ingresa una letra erronea
+                    print(f"{eleccion_letra_usr} no esta en la palabra. Perdes una vida")
 
-    if eleccion_letra_usr in palabra:
-        print(f"\nMuy bien! {eleccion_letra_usr} esta en la palabra!")
+                if mostrar_progreso(palabra, letras_ingresadas).replace(" ", "") == palabra:
+                    print(f"\nFelicidades! Adivinaste la palabra: {palabra}")
+                    break #si el usr advina toda la palabra sale del bucle
 
-    else:
-        vidas -= 1 #resto 1 vida si el usuario ingresa una letra erronea
-        print(f"{eleccion_letra_usr} no esta en la palabra. Perdes una vida")
+                if vidas == 0:
+                    print(f"\n Se te acabaron todas las vidas, la palabra era {palabra}")
+            
+            while True:    
+                jugar_nuevamente = input("Desea jugar nuevamente? S/N: ").lower()
 
-    if mostrar_progreso(palabra, letras_ingresadas).replace(" ", "") == palabra:
-        print(f"\nFelicidades! Adivinaste la palabra: {palabra}")
-        break #si el usr advina toda la palabra sale del bucle
+                if jugar_nuevamente == "s":
+                    break
 
-    if vidas == 0:
-        print(f"\n Se te acabaron todas las vidas, la palabra era {palabra}")
+                elif jugar_nuevamente == "n":
+                    print("Espero que te hayas divertido")
+                    return
 
-jugar_nuevamente = input("Desea jugar nuevamente? S/N: ").lower()
-if jugar_nuevamente == "s":
-    palabra = eleccion_palabra()
-    longuitud_guiones = ""
-    vidas = 6
-    letras_ingresadas = []
+                else:
+                    print("Respuesta no valida")
 
-for g in palabra: #genera cantidad de guiones segun la palabra seleccionada
-    if g:
-        longuitud_guiones += "_ "
+jugar()
 
-print(f"Comencemos nuevamente...\n RECORDA QUE TENES 6 VIDAS \n La palabra es:{longuitud_guiones}")
+                   
