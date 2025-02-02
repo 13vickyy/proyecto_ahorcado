@@ -1,16 +1,11 @@
 import random
-
-import string
-
-print("Juego del ahorcado")
-
 #python elige palabra al azar
 
 def eleccion_palabra():
-    palabras = ["Cocodrilo", "Alexandra", "Matematica", "Progarmacion", 
+      palabras = ["Cocodrilo", "Alexandra", "Matematica", "Progarmacion", 
                 "Felicidad", "Harina", "Motor", "Amortiguadores", "Chipa",
                 "Celular", "Medias", "Sombrero"]
-    return random.choice(palabras).lower()
+      return random.choice(palabras).lower()
 
 palabra = eleccion_palabra() #eleccion de palabra al azar
 
@@ -66,3 +61,16 @@ while vidas > 0:
 
     if vidas == 0:
         print(f"\n Se te acabaron todas las vidas, la palabra era {palabra}")
+
+jugar_nuevamente = input("Desea jugar nuevamente? S/N: ").lower()
+if jugar_nuevamente == "s":
+    palabra = eleccion_palabra()
+    longuitud_guiones = ""
+    vidas = 6
+    letras_ingresadas = []
+
+for g in palabra: #genera cantidad de guiones segun la palabra seleccionada
+    if g:
+        longuitud_guiones += "_ "
+
+print(f"Comencemos nuevamente...\n RECORDA QUE TENES 6 VIDAS \n La palabra es:{longuitud_guiones}")
